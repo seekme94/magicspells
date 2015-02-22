@@ -1,28 +1,22 @@
+
 package com.ihsinformatics.magicspells;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import com.ihsinformatics.magicspells.api.MagicSpellsService;
+import com.ihsinformatics.magicspells.api.impl.SoundexISpellImpl;
 
 public class SoundexSpellImplTest
 {
-
-	@BeforeClass
-	public static void setUpBeforeClass () throws Exception
-	{
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass () throws Exception
-	{
-	}
+	SoundexISpellImpl spellImpl;
 
 	@Before
 	public void setUp () throws Exception
 	{
+		MagicSpellsService service = new MagicSpellsService ();
+		spellImpl = service.getSoundex ();
 	}
 
 	@After
@@ -31,21 +25,16 @@ public class SoundexSpellImplTest
 	}
 
 	@Test
-	public final void testSoundexISpellImpl ()
-	{
-		fail ("Not yet implemented"); // TODO
-	}
-
-	@Test
 	public final void testGetSuggestion ()
 	{
-		fail ("Not yet implemented"); // TODO
+		assertTrue (spellImpl.getSuggestion ("Hussain").equals (spellImpl.getSuggestion ("Hossain")));
+		assertTrue (spellImpl.getSuggestion ("Hussain").equals (spellImpl.getSuggestion ("Hossein")));
+		assertTrue (spellImpl.getSuggestion ("Husain").equals (spellImpl.getSuggestion ("Hosein")));
 	}
 
 	@Test
 	public final void testGetSuggestions ()
 	{
-		fail ("Not yet implemented"); // TODO
+		// TODO
 	}
-
 }
