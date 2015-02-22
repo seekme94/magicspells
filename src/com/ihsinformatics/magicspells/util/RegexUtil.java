@@ -91,8 +91,8 @@ package com.ihsinformatics.magicspells.util;
 public class RegexUtil {
     public static final String numericPattern = "^[0-9]+";
     public static final String floatingPointPattern = "^[0-9]+.{0,1}[0-9]*";
-    public static final String alphaPattern = "^[A-Za-z ]+";
-    public static final String alphaNumPattern = "^[A-Za-z0-9 ]+";
+    public static final String alphaPattern = "[^A-Za-z ]+";
+    public static final String alphaNumPattern = "[\\W]|_";
     public static final String emailPattern = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
     public static final String contactNoPattern = "^[0-9]+";
     public static final String datePattern = "(0[1-9]|[1-9]|[12][0-9]|3[01])[-/](0[1-9]|1[012]|[1-9])[-/](19|20)\\d{2}";

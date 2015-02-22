@@ -652,6 +652,72 @@ function setDocumentScrollTop(ypos)
 <ul> 
  <li>Compatible only with English dictionary</li> 
  <li>Finds punctuation marks seriously offensive</li> 
-</ul>
+</ul> 
+<h2> <a id="user-content-pre-requisites" class="anchor" href="#pre-requisites" aria-hidden="true"><span class="octicon octicon-link"></span></a>Pre-requisites</h2> 
+<p>The API has been developed and tested on Java 1.7. However, it should be compatible on 1.6 too. The dependency libraries include:</p> 
+<ul> 
+ <li> <em>log4j-1.2.15</em> for logging</li> 
+ <li> <em>lucene-core-3.6.0.jar</em> and <em>lucene-spellchecker-3.6.0.jar</em> for spell check</li> 
+</ul> 
+<h2> <a id="user-content-usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2> 
+<p>Running examples are provided in MagicSpellsMain. Snippets are to help write boilerplate code:</p> 
+<h3> <a id="user-content-normalization-snippet" class="anchor" href="#normalization-snippet" aria-hidden="true"><span class="octicon octicon-link"></span></a>Normalization snippet</h3> 
+<p>NormalizeImpl class provides functions to remove funky letters from text. This might be used as a pre-processor before spell check.</p> 
+<pre><code>public static void main(String[] args) {
+    try {
+        MagicSpellsService service = new MagicSpellsService();
+        String[] words = { &quot;@lpha&quot;, &quot;b3ta&quot;, &quot;gamma&quot;, &quot;de1t@&quot;, &quot;3p$!l0n&quot; };
+        ISpell normalize = service.getNormalize();
+        System.out.println(&quot;\nNormalizing...&quot;);
+        for (String word : words) {
+            Suggestion suggestion = normalize.getSuggestion(word);
+            System.out.println(suggestion.getSuggestedWord());
+        }
+        catch (IOException e) {
+        log.error(&quot;Trying to initialize MagicSpellService: &quot;
+            + e.getMessage());
+        e.printStackTrace();
+    }
+}
+</code></pre> 
+<h3> <a id="user-content-soundex-snippet" class="anchor" href="#soundex-snippet" aria-hidden="true"><span class="octicon octicon-link"></span></a>Soundex snippet</h3> 
+<p>SoundexImpl class provides indexing methods for English text. The output of a word is a code, which is consistent for multiple pronunciations of the same word.</p> 
+<pre><code>public static void main(String[] args) {
+    try {
+        MagicSpellsService service = new MagicSpellsService();
+        String[] words = { &quot;michael&quot;, &quot;micheal&quot;, &quot;michelle&quot;, &quot;michail&quot;, &quot;meekhail&quot; };
+        ISpell soundex = service.getSoundex();
+        System.out.println(&quot;\nSound indexing...&quot;);
+        for (String word : words) {
+            Suggestion suggestion = soundex.getSuggestion(word);
+            System.out.println(suggestion.getSuggestedWord());
+        }
+        catch (IOException e) {
+        log.error(&quot;Trying to initialize MagicSpellService: &quot;
+            + e.getMessage());
+        e.printStackTrace();
+    }
+}
+</code></pre> 
+<h3> <a id="user-content-spell-check-snippet" class="anchor" href="#spell-check-snippet" aria-hidden="true"><span class="octicon octicon-link"></span></a>Spell check snippet</h3> 
+<p>SpellImpl class uses Lucene library to check for spelling mistakes. The res/dict_en.txt is the dictionary </p> 
+<pre><code>public static void main(String[] args) {
+    try {
+        MagicSpellsService service = new MagicSpellsService();
+        String[] words = { &quot;wierd&quot;, &quot;definate&quot;, &quot;wheather&quot;, &quot;acommodate&quot;,
+            &quot;bizzare&quot;, &quot;seperate&quot; };
+        ISpell spell = service.getSpellCheck();
+        System.out.println(&quot;\nSpell check...&quot;);
+        for (String word : words) {
+            Suggestion suggestion = spell.getSuggestion(word);
+            System.out.println(suggestion.getSuggestedWord());
+        }
+        catch (IOException e) {
+        log.error(&quot;Trying to initialize MagicSpellService: &quot;
+            + e.getMessage());
+        e.printStackTrace();
+    }
+}
+</code></pre>
 </body>
 </html>

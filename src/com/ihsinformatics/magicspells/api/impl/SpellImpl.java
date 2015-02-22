@@ -7,6 +7,7 @@ package com.ihsinformatics.magicspells.api.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
+
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -16,6 +17,7 @@ import org.apache.lucene.search.spell.SpellChecker;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
+
 import com.ihsinformatics.magicspells.api.ISpell;
 import com.ihsinformatics.magicspells.api.Suggestion;
 
@@ -76,6 +78,8 @@ public final class SpellImpl implements ISpell {
     }
 
     public Suggestion[] getSuggestions(String word, int num) {
+	if ("".equals(word))
+	    return new Suggestion[] { new Suggestion("", 0) };
 	Suggestion[] suggestions = null;
 	try {
 	    String[] alternates = spellChecker.suggestSimilar(word,
@@ -98,9 +102,20 @@ public final class SpellImpl implements ISpell {
 	this.maxSuggestions = maxSuggestions;
     }
 
+    /**
+     * Breaks the text into
+     * 
+     * @param text
+     * @return
+     */
+    public String[] tokenize(String text) {
+	String[] tokens = text.split("[,.;:?! ]");
+	return tokens;
+    }
+
     public String iAmFeelingLucky(String text) {
-	String suggested = null;
-	return suggested;
+	// TODO
+	return text;
     }
 
     /**
@@ -122,6 +137,7 @@ public final class SpellImpl implements ISpell {
 	if (suggestedText.equals(correctText))
 	    return accuracy;
 	// Tokenize strings and compute distance of each term
+	// TODO:
 
 	return accuracy;
     }
